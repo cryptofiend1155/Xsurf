@@ -1,0 +1,25 @@
+{
+  "manifest.json": {
+    "manifest_version": 3,
+    "name": "Xsurf",
+    "version": "1.0",
+    "description": "surfs X pages",
+    "permissions": [
+      "scripting"
+    ],
+    "host_permissions": [
+      "https://x.com/*",
+      "https://www.x.com/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "xsurf.png"
+    }
+  },
+  "background.js": "chrome.action.onClicked.addListener((tab) => {\n  chrome.scripting.executeScript({\n    target: { tabId: tab.id },\n    files: ['contentScript.js']\n  });\n});",
+  "contentScript.js": "function triggerJKey() {\n  const event = new KeyboardEvent('keydown', {\n    key: 'j',\n    code: 'KeyJ',\n    keyCode: 74, // 'j' key code\n    which: 74,\n    bubbles: true\n  });\n\n  document.dispatchEvent(event);\n}\n\n// Trigger the 'j' key press every 3 seconds as an example\nsetInterval(triggerJKey, 3000);",
+  "popup.html": "<!DOCTYPE html>\n<html>\n<head>\n  <title>Auto J Key Trigger</title>\n</head>\n<body>\n  <h1>Auto J Key Trigger</h1>\n  <p>Click the extension icon to start navigating tweets.</p>\n</body>\n</html>"
+}
